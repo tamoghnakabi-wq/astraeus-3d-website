@@ -1,0 +1,158 @@
+@import "tailwindcss";
+
+/* ── ASTRAEUS design tokens ─────────────────────────────────────────── */
+@theme {
+  --color-void: #02040a;
+  --color-abyss: #060a14;
+  --color-panel: #0a101e;
+  --color-line: #1a2438;
+  --color-star: #eef2fa;
+  --color-fog: #97a3ba;
+  --color-dim: #5a667e;
+  --color-nova: #4f86ff;
+  --color-ion: #6fe3ff;
+  --color-ember: #ff9a4d;
+
+  --font-display: "Space Grotesk", "Inter", sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+
+  --animate-pulse-dot: pulse-dot 2.4s ease-in-out infinite;
+  --animate-spin-slow: spin 14s linear infinite;
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.35; transform: scale(0.8); }
+  }
+}
+
+/* ── Base ───────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: auto;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  background: var(--color-void);
+  color: var(--color-star);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(79, 134, 255, 0.35);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+}
+::-webkit-scrollbar-track {
+  background: #04060d;
+}
+::-webkit-scrollbar-thumb {
+  background: #1c2742;
+  border-radius: 99px;
+  border: 2px solid #04060d;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2c3c66;
+}
+
+/* ── Components ─────────────────────────────────────────────────────── */
+@layer components {
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--color-nova);
+  }
+
+  .glass-panel {
+    background: linear-gradient(160deg, rgba(14, 21, 38, 0.72), rgba(7, 11, 22, 0.6));
+    border: 1px solid rgba(94, 124, 184, 0.14);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .hairline {
+    background: linear-gradient(90deg, transparent, rgba(140, 165, 220, 0.25), transparent);
+    height: 1px;
+  }
+
+  .text-stroke {
+    -webkit-text-stroke: 1px rgba(238, 242, 250, 0.13);
+    color: transparent;
+  }
+
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(79, 134, 255, 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(79, 134, 255, 0.045) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(ellipse 90% 75% at 50% 40%, black 35%, transparent 78%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 75% at 50% 40%, black 35%, transparent 78%);
+  }
+
+  /* filmic grain over everything — keeps flat dark areas alive */
+  .noise-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 220px 220px;
+  }
+
+  .scanline {
+    background: repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 3px,
+      rgba(111, 227, 255, 0.018) 3px,
+      rgba(111, 227, 255, 0.018) 4px
+    );
+  }
+}
+
+/* corner brackets for HUD-style frames */
+.hud-frame {
+  position: relative;
+}
+.hud-frame::before,
+.hud-frame::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: rgba(111, 227, 255, 0.4);
+  border-style: solid;
+  z-index: 10;
+}
+.hud-frame::before {
+  top: 0;
+  left: 0;
+  border-width: 1px 0 0 1px;
+}
+.hud-frame::after {
+  bottom: 0;
+  right: 0;
+  border-width: 0 1px 1px 0;
+}
